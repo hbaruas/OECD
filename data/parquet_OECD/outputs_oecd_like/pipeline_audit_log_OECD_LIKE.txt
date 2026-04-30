@@ -1,0 +1,1275 @@
+OECD-LIKE PIPELINE AUDIT - 2026-02-19 22:30:51.673581
+
+
+==============================================================================================================
+PARAMETERS
+==============================================================================================================
+SIM_THRESHOLD: 0.5
+REL_SHARE: 10.0
+DATA_THRESHOLD: 3
+MIN_GLOBAL_COUNT: 100
+SUT_YEAR: 2023
+SOC_GROUPS: {'data_entry': ['4111', '4112', '4113', '4114', '4121', '4131', '4132', '4150'], 'database': ['2423', '2136'], 'analytics': ['2421', '2424', '2133', '2135']}
+NOTE: SOC groups as anchors can dilute distinctiveness; diagnostics below will show feasibility.
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Census Weights (sample)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['soc4', 'SIC_Code', 'n_sic', 'total_soc', 'w_soc4_SIC']
+soc4 SIC_Code  n_sic  total_soc  w_soc4_SIC
+1112        A      5       6809    0.000734
+1225        K    105      11069    0.009486
+2115      M-N   3208       9068    0.353772
+2123      O-Q   2959      26286    0.112569
+2151      O-Q   2637      10107    0.260908
+2222      R-T    102      29898    0.003412
+2234      R-T    403      48020    0.008392
+2492        L     33      24634    0.001340
+2493        U    164      43521    0.003768
+3119      B-E  19620      77754    0.252334
+3431      O-Q   1285      15347    0.083730
+3433      M-N    824      67866    0.012142
+3533        A     34      14678    0.002316
+3551        U     31      59512    0.000521
+4122        F  19863     265544    0.074801
+4132      M-N   2344      55885    0.041943
+5233      O-Q     96      11279    0.008511
+5244      M-N   1367      23961    0.057051
+5321        L    477      64096    0.007442
+5421        J    505       3186    0.158506
+6111      M-N    728     117257    0.006209
+6113      M-N   1195     110282    0.010836
+6135        A    810     856217    0.000946
+6250        K     30       7358    0.004077
+7131      B-E   3746     132688    0.028232
+8134      R-T    206      16990    0.012125
+8139        A    101      16608    0.006081
+1134        F   3562      36786    0.096830
+1161        L     20      29559    0.000677
+1232      O-Q  49597      56022    0.885313
+2112        J    390      14536    0.026830
+2122        F   9637      95865    0.100527
+2122        L    416      95865    0.004339
+2126        U     48      10436    0.004599
+2131        F    904      35303    0.025607
+2151        L     57      10107    0.005640
+2472        L     42       9377    0.004479
+2481      G-I   3638      33529    0.108503
+3111        K    247      53248    0.004639
+3311        K    104      70492    0.001475
+3411      O-Q   3580      47027    0.076126
+3416        J  47943      74754    0.641344
+3557        L    417      48020    0.008684
+4151        L   1910      49025    0.038960
+5312      B-E   1902      10397    0.182937
+5319      B-E   6508     233677    0.027850
+5435        K    155      58772    0.002637
+6250      G-I   6482       7358    0.880946
+8119        F   1871      17008    0.110007
+9211        U     51     135316    0.000377
+9219      B-E   3784      28526    0.132651
+9231      B-E   4433     170422    0.026012
+5319        K    598     233677    0.002559
+1134      B-E   8584      36786    0.233350
+1161        K     50      29559    0.001692
+1171      B-E   2160      69290    0.031173
+1225        L     32      11069    0.002891
+2139        U     20      80009    0.000250
+2152        A    128      28801    0.004444
+5113      M-N 108764     135081    0.805176
+5249        K    317      28254    0.011220
+7111        J   9130    1114361    0.008193
+7111        L   1799    1114361    0.001614
+8133        A     27       7880    0.003426
+8215        L     51      27618    0.001847
+8222        K    200      60306    0.003316
+9121        L    257      44854    0.005730
+1133        U     32      20038    0.001597
+1162        F     12       6539    0.001835
+1243        U      8      20680    0.000387
+2132        A    146     146416    0.000997
+2161        U      6      49907    0.000120
+2224        K     47      25903    0.001814
+2483        K     13       6469    0.002010
+3223      R-T    382      35556    0.010744
+3551        K    795      59512    0.013359
+4133        J   1355      66642    0.020333
+5249        F   3673      28254    0.129999
+5314        J     77      45739    0.001683
+5413        A     13      12466    0.001043
+
+==============================================================================================================
+>>> YEAR 2020 START <<<
+==============================================================================================================
+
+==============================================================================================================
+RAW PHASE1 SANITY
+==============================================================================================================
+chunks_rows: 6153
+distinct_jobs: 1
+distinct_soc4: 6
+distinct_noun_chunks: 7
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top noun_chunk by Count_byNoun
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'Count_byNoun']
+             noun_chunk  Count_byNoun
+sql database management           879
+dashboard visualization           879
+         data analytics           879
+               keywords           879
+     python programming           879
+       machine learning           879
+   statistical modeling           879
+
+==============================================================================================================
+DIAGNOSTIC 1: ANCHOR COVERAGE (SOC4 group anchors)
+==============================================================================================================
+data_entry | anchors=['4111', '4112', '4113', '4114', '4121', '4131', '4132', '4150']
+  rows=0, distinct_jobs=0, term_mass(sum Count_byNounOcc)=0
+database | anchors=['2423', '2136']
+  rows=7, distinct_jobs=1, term_mass(sum Count_byNounOcc)=1022
+analytics | anchors=['2421', '2424', '2133', '2135']
+  rows=28, distinct_jobs=1, term_mass(sum Count_byNounOcc)=4102
+
+==============================================================================================================
+DIAGNOSTIC 2: RELATIVE_FREQUENCY DISTRIBUTION (global)
+==============================================================================================================
+[warn] approxQuantile failed: An error occurred while calling o333.approxQuantile.
+: java.lang.ClassCastException: class java.lang.Integer cannot be cast to class java.lang.Double (java.lang.Integer and java.lang.Double are in module java.base of loader 'bootstrap')
+	at scala.runtime.BoxesRunTime.unboxToDouble(BoxesRunTime.java:112)
+	at scala.collection.mutable.ArrayBuilder$ofDouble.addOne(ArrayBuilder.scala:411)
+	at scala.collection.mutable.Growable.addAll(Growable.scala:62)
+	at scala.collection.mutable.Growable.addAll$(Growable.scala:57)
+	at scala.collection.mutable.ArrayBuilder.addAll(ArrayBuilder.scala:75)
+	at scala.collection.IterableOnceOps.toArray(IterableOnce.scala:1528)
+	at scala.collection.IterableOnceOps.toArray$(IterableOnce.scala:1521)
+	at scala.collection.AbstractIterable.toArray(Iterable.scala:936)
+	at org.apache.spark.sql.classic.DataFrameStatFunctions.approxQuantile(DataFrameStatFunctions.scala:61)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+	at py4j.Gateway.invoke(Gateway.java:282)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:184)
+	at py4j.ClientServerConnection.run(ClientServerConnection.java:108)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: RF buckets
+--------------------------------------------------------------------------------------------------------------
+Columns: ['rf_bucket', 'count']
+rf_bucket  count
+      1-2     42
+
+==============================================================================================================
+DIAGNOSTIC 3: REL_SHARE feasibility checks
+==============================================================================================================
+rows with RF >= 1: 42
+rows with RF >= 2: 0
+rows with RF >= 3: 0
+rows with RF >= 5: 0
+rows with RF >= 8: 0
+rows with RF >= 10: 0
+rows with RF >= 12: 0
+rows with RF >= 15: 0
+rows with RF >= REL_SHARE(10.0): 0
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top rows by relative_frequency (unfiltered)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+   statistical modeling 2424           879         1022              146         0.142857      0.142857                 1.0  0.562410
+       machine learning 2424           879         1022              146         0.142857      0.142857                 1.0  0.331659
+dashboard visualization 2421           879         1022              146         0.142857      0.142857                 1.0  0.428511
+               keywords 2134           879         1029              147         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2134           879         1029              147         0.142857      0.142857                 1.0  0.428511
+       machine learning 2421           879         1022              146         0.142857      0.142857                 1.0  0.331659
+     python programming 2133           879         1029              147         0.142857      0.142857                 1.0  0.317704
+sql database management 2421           879         1022              146         0.142857      0.142857                 1.0  0.654022
+       machine learning 2135           879         1029              147         0.142857      0.142857                 1.0  0.331659
+         data analytics 2424           879         1022              146         0.142857      0.142857                 1.0  0.849426
+               keywords 2424           879         1022              146         0.142857      0.142857                 1.0  0.305681
+               keywords 2135           879         1029              147         0.142857      0.142857                 1.0  0.305681
+sql database management 2135           879         1029              147         0.142857      0.142857                 1.0  0.654022
+               keywords 2421           879         1022              146         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2424           879         1022              146         0.142857      0.142857                 1.0  0.428511
+dashboard visualization 2136           879         1022              146         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2421           879         1022              146         0.142857      0.142857                 1.0  0.562410
+     python programming 2135           879         1029              147         0.142857      0.142857                 1.0  0.317704
+sql database management 2136           879         1022              146         0.142857      0.142857                 1.0  0.654022
+       machine learning 2134           879         1029              147         0.142857      0.142857                 1.0  0.331659
+     python programming 2421           879         1022              146         0.142857      0.142857                 1.0  0.317704
+         data analytics 2134           879         1029              147         0.142857      0.142857                 1.0  0.849426
+         data analytics 2135           879         1029              147         0.142857      0.142857                 1.0  0.849426
+         data analytics 2421           879         1022              146         0.142857      0.142857                 1.0  0.849426
+dashboard visualization 2135           879         1029              147         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2134           879         1029              147         0.142857      0.142857                 1.0  0.562410
+       machine learning 2136           879         1022              146         0.142857      0.142857                 1.0  0.331659
+               keywords 2136           879         1022              146         0.142857      0.142857                 1.0  0.305681
+         data analytics 2133           879         1029              147         0.142857      0.142857                 1.0  0.849426
+sql database management 2133           879         1029              147         0.142857      0.142857                 1.0  0.654022
+     python programming 2136           879         1022              146         0.142857      0.142857                 1.0  0.317704
+         data analytics 2136           879         1022              146         0.142857      0.142857                 1.0  0.849426
+   statistical modeling 2133           879         1029              147         0.142857      0.142857                 1.0  0.562410
+   statistical modeling 2135           879         1029              147         0.142857      0.142857                 1.0  0.562410
+     python programming 2424           879         1022              146         0.142857      0.142857                 1.0  0.317704
+dashboard visualization 2133           879         1029              147         0.142857      0.142857                 1.0  0.428511
+     python programming 2134           879         1029              147         0.142857      0.142857                 1.0  0.317704
+               keywords 2133           879         1029              147         0.142857      0.142857                 1.0  0.305681
+       machine learning 2133           879         1029              147         0.142857      0.142857                 1.0  0.331659
+sql database management 2134           879         1029              147         0.142857      0.142857                 1.0  0.654022
+sql database management 2424           879         1022              146         0.142857      0.142857                 1.0  0.654022
+   statistical modeling 2136           879         1022              146         0.142857      0.142857                 1.0  0.562410
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (data_entry)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+[Empty]
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (database)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+dashboard visualization 2136           879         1022              146         0.142857      0.142857                 1.0  0.428511
+sql database management 2136           879         1022              146         0.142857      0.142857                 1.0  0.654022
+       machine learning 2136           879         1022              146         0.142857      0.142857                 1.0  0.331659
+               keywords 2136           879         1022              146         0.142857      0.142857                 1.0  0.305681
+     python programming 2136           879         1022              146         0.142857      0.142857                 1.0  0.317704
+         data analytics 2136           879         1022              146         0.142857      0.142857                 1.0  0.849426
+   statistical modeling 2136           879         1022              146         0.142857      0.142857                 1.0  0.562410
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (analytics)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+   statistical modeling 2424           879         1022              146         0.142857      0.142857                 1.0  0.562410
+       machine learning 2424           879         1022              146         0.142857      0.142857                 1.0  0.331659
+dashboard visualization 2421           879         1022              146         0.142857      0.142857                 1.0  0.428511
+       machine learning 2421           879         1022              146         0.142857      0.142857                 1.0  0.331659
+     python programming 2133           879         1029              147         0.142857      0.142857                 1.0  0.317704
+sql database management 2421           879         1022              146         0.142857      0.142857                 1.0  0.654022
+       machine learning 2135           879         1029              147         0.142857      0.142857                 1.0  0.331659
+         data analytics 2424           879         1022              146         0.142857      0.142857                 1.0  0.849426
+               keywords 2424           879         1022              146         0.142857      0.142857                 1.0  0.305681
+               keywords 2135           879         1029              147         0.142857      0.142857                 1.0  0.305681
+sql database management 2135           879         1029              147         0.142857      0.142857                 1.0  0.654022
+               keywords 2421           879         1022              146         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2424           879         1022              146         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2421           879         1022              146         0.142857      0.142857                 1.0  0.562410
+     python programming 2135           879         1029              147         0.142857      0.142857                 1.0  0.317704
+     python programming 2421           879         1022              146         0.142857      0.142857                 1.0  0.317704
+         data analytics 2135           879         1029              147         0.142857      0.142857                 1.0  0.849426
+         data analytics 2421           879         1022              146         0.142857      0.142857                 1.0  0.849426
+dashboard visualization 2135           879         1029              147         0.142857      0.142857                 1.0  0.428511
+         data analytics 2133           879         1029              147         0.142857      0.142857                 1.0  0.849426
+sql database management 2133           879         1029              147         0.142857      0.142857                 1.0  0.654022
+   statistical modeling 2133           879         1029              147         0.142857      0.142857                 1.0  0.562410
+   statistical modeling 2135           879         1029              147         0.142857      0.142857                 1.0  0.562410
+     python programming 2424           879         1022              146         0.142857      0.142857                 1.0  0.317704
+dashboard visualization 2133           879         1029              147         0.142857      0.142857                 1.0  0.428511
+               keywords 2133           879         1029              147         0.142857      0.142857                 1.0  0.305681
+       machine learning 2133           879         1029              147         0.142857      0.142857                 1.0  0.331659
+sql database management 2424           879         1022              146         0.142857      0.142857                 1.0  0.654022
+
+==============================================================================================================
+DICTIONARY SUMMARY
+==============================================================================================================
+dictionary_size: 0
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Dictionary (deduped)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data', 'Type']
+[Empty]
+
+[wrote] dictionary -> /Users/saurabhkumar/Desktop/OECD_PYSPARK_LOCAL/data/parquet_OECD/outputs_oecd_like/dictionary_year=2020
+
+[INFO] Dictionary empty under strict OECD thresholds.
+This does NOT mean methodology is wrong.
+It means (RF>=REL_SHARE AND Count_byNoun>=MIN_GLOBAL_COUNT) produced no candidates.
+Use feasibility checks + RF quantiles above to confirm.
+
+==============================================================================================================
+>>> YEAR 2021 START <<<
+==============================================================================================================
+
+==============================================================================================================
+RAW PHASE1 SANITY
+==============================================================================================================
+chunks_rows: 5719
+distinct_jobs: 1
+distinct_soc4: 6
+distinct_noun_chunks: 7
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top noun_chunk by Count_byNoun
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'Count_byNoun']
+             noun_chunk  Count_byNoun
+sql database management           817
+dashboard visualization           817
+         data analytics           817
+               keywords           817
+     python programming           817
+       machine learning           817
+   statistical modeling           817
+
+==============================================================================================================
+DIAGNOSTIC 1: ANCHOR COVERAGE (SOC4 group anchors)
+==============================================================================================================
+data_entry | anchors=['4111', '4112', '4113', '4114', '4121', '4131', '4132', '4150']
+  rows=0, distinct_jobs=0, term_mass(sum Count_byNounOcc)=0
+database | anchors=['2423', '2136']
+  rows=7, distinct_jobs=1, term_mass(sum Count_byNounOcc)=959
+analytics | anchors=['2421', '2424', '2133', '2135']
+  rows=28, distinct_jobs=1, term_mass(sum Count_byNounOcc)=3808
+
+==============================================================================================================
+DIAGNOSTIC 2: RELATIVE_FREQUENCY DISTRIBUTION (global)
+==============================================================================================================
+[warn] approxQuantile failed: An error occurred while calling o955.approxQuantile.
+: java.lang.ClassCastException: class java.lang.Integer cannot be cast to class java.lang.Double (java.lang.Integer and java.lang.Double are in module java.base of loader 'bootstrap')
+	at scala.runtime.BoxesRunTime.unboxToDouble(BoxesRunTime.java:112)
+	at scala.collection.mutable.ArrayBuilder$ofDouble.addOne(ArrayBuilder.scala:411)
+	at scala.collection.mutable.Growable.addAll(Growable.scala:62)
+	at scala.collection.mutable.Growable.addAll$(Growable.scala:57)
+	at scala.collection.mutable.ArrayBuilder.addAll(ArrayBuilder.scala:75)
+	at scala.collection.IterableOnceOps.toArray(IterableOnce.scala:1528)
+	at scala.collection.IterableOnceOps.toArray$(IterableOnce.scala:1521)
+	at scala.collection.AbstractIterable.toArray(Iterable.scala:936)
+	at org.apache.spark.sql.classic.DataFrameStatFunctions.approxQuantile(DataFrameStatFunctions.scala:61)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+	at py4j.Gateway.invoke(Gateway.java:282)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:184)
+	at py4j.ClientServerConnection.run(ClientServerConnection.java:108)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: RF buckets
+--------------------------------------------------------------------------------------------------------------
+Columns: ['rf_bucket', 'count']
+rf_bucket  count
+      1-2     42
+
+==============================================================================================================
+DIAGNOSTIC 3: REL_SHARE feasibility checks
+==============================================================================================================
+rows with RF >= 1: 42
+rows with RF >= 2: 0
+rows with RF >= 3: 0
+rows with RF >= 5: 0
+rows with RF >= 8: 0
+rows with RF >= 10: 0
+rows with RF >= 12: 0
+rows with RF >= 15: 0
+rows with RF >= REL_SHARE(10.0): 0
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top rows by relative_frequency (unfiltered)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+   statistical modeling 2424           817          952              136         0.142857      0.142857                 1.0  0.562410
+       machine learning 2424           817          952              136         0.142857      0.142857                 1.0  0.331659
+dashboard visualization 2421           817          952              136         0.142857      0.142857                 1.0  0.428511
+               keywords 2134           817          952              136         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2134           817          952              136         0.142857      0.142857                 1.0  0.428511
+       machine learning 2421           817          952              136         0.142857      0.142857                 1.0  0.331659
+     python programming 2133           817          952              136         0.142857      0.142857                 1.0  0.317704
+sql database management 2421           817          952              136         0.142857      0.142857                 1.0  0.654022
+       machine learning 2135           817          952              136         0.142857      0.142857                 1.0  0.331659
+         data analytics 2424           817          952              136         0.142857      0.142857                 1.0  0.849426
+               keywords 2424           817          952              136         0.142857      0.142857                 1.0  0.305681
+               keywords 2135           817          952              136         0.142857      0.142857                 1.0  0.305681
+sql database management 2135           817          952              136         0.142857      0.142857                 1.0  0.654022
+               keywords 2421           817          952              136         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2424           817          952              136         0.142857      0.142857                 1.0  0.428511
+dashboard visualization 2136           817          959              137         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2421           817          952              136         0.142857      0.142857                 1.0  0.562410
+     python programming 2135           817          952              136         0.142857      0.142857                 1.0  0.317704
+sql database management 2136           817          959              137         0.142857      0.142857                 1.0  0.654022
+       machine learning 2134           817          952              136         0.142857      0.142857                 1.0  0.331659
+     python programming 2421           817          952              136         0.142857      0.142857                 1.0  0.317704
+         data analytics 2134           817          952              136         0.142857      0.142857                 1.0  0.849426
+         data analytics 2135           817          952              136         0.142857      0.142857                 1.0  0.849426
+         data analytics 2421           817          952              136         0.142857      0.142857                 1.0  0.849426
+dashboard visualization 2135           817          952              136         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2134           817          952              136         0.142857      0.142857                 1.0  0.562410
+       machine learning 2136           817          959              137         0.142857      0.142857                 1.0  0.331659
+               keywords 2136           817          959              137         0.142857      0.142857                 1.0  0.305681
+         data analytics 2133           817          952              136         0.142857      0.142857                 1.0  0.849426
+sql database management 2133           817          952              136         0.142857      0.142857                 1.0  0.654022
+     python programming 2136           817          959              137         0.142857      0.142857                 1.0  0.317704
+         data analytics 2136           817          959              137         0.142857      0.142857                 1.0  0.849426
+   statistical modeling 2133           817          952              136         0.142857      0.142857                 1.0  0.562410
+   statistical modeling 2135           817          952              136         0.142857      0.142857                 1.0  0.562410
+     python programming 2424           817          952              136         0.142857      0.142857                 1.0  0.317704
+dashboard visualization 2133           817          952              136         0.142857      0.142857                 1.0  0.428511
+     python programming 2134           817          952              136         0.142857      0.142857                 1.0  0.317704
+               keywords 2133           817          952              136         0.142857      0.142857                 1.0  0.305681
+       machine learning 2133           817          952              136         0.142857      0.142857                 1.0  0.331659
+sql database management 2134           817          952              136         0.142857      0.142857                 1.0  0.654022
+sql database management 2424           817          952              136         0.142857      0.142857                 1.0  0.654022
+   statistical modeling 2136           817          959              137         0.142857      0.142857                 1.0  0.562410
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (data_entry)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+[Empty]
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (database)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+dashboard visualization 2136           817          959              137         0.142857      0.142857                 1.0  0.428511
+sql database management 2136           817          959              137         0.142857      0.142857                 1.0  0.654022
+       machine learning 2136           817          959              137         0.142857      0.142857                 1.0  0.331659
+               keywords 2136           817          959              137         0.142857      0.142857                 1.0  0.305681
+     python programming 2136           817          959              137         0.142857      0.142857                 1.0  0.317704
+         data analytics 2136           817          959              137         0.142857      0.142857                 1.0  0.849426
+   statistical modeling 2136           817          959              137         0.142857      0.142857                 1.0  0.562410
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (analytics)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+   statistical modeling 2424           817          952              136         0.142857      0.142857                 1.0  0.562410
+       machine learning 2424           817          952              136         0.142857      0.142857                 1.0  0.331659
+dashboard visualization 2421           817          952              136         0.142857      0.142857                 1.0  0.428511
+       machine learning 2421           817          952              136         0.142857      0.142857                 1.0  0.331659
+     python programming 2133           817          952              136         0.142857      0.142857                 1.0  0.317704
+sql database management 2421           817          952              136         0.142857      0.142857                 1.0  0.654022
+       machine learning 2135           817          952              136         0.142857      0.142857                 1.0  0.331659
+         data analytics 2424           817          952              136         0.142857      0.142857                 1.0  0.849426
+               keywords 2424           817          952              136         0.142857      0.142857                 1.0  0.305681
+               keywords 2135           817          952              136         0.142857      0.142857                 1.0  0.305681
+sql database management 2135           817          952              136         0.142857      0.142857                 1.0  0.654022
+               keywords 2421           817          952              136         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2424           817          952              136         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2421           817          952              136         0.142857      0.142857                 1.0  0.562410
+     python programming 2135           817          952              136         0.142857      0.142857                 1.0  0.317704
+     python programming 2421           817          952              136         0.142857      0.142857                 1.0  0.317704
+         data analytics 2135           817          952              136         0.142857      0.142857                 1.0  0.849426
+         data analytics 2421           817          952              136         0.142857      0.142857                 1.0  0.849426
+dashboard visualization 2135           817          952              136         0.142857      0.142857                 1.0  0.428511
+         data analytics 2133           817          952              136         0.142857      0.142857                 1.0  0.849426
+sql database management 2133           817          952              136         0.142857      0.142857                 1.0  0.654022
+   statistical modeling 2133           817          952              136         0.142857      0.142857                 1.0  0.562410
+   statistical modeling 2135           817          952              136         0.142857      0.142857                 1.0  0.562410
+     python programming 2424           817          952              136         0.142857      0.142857                 1.0  0.317704
+dashboard visualization 2133           817          952              136         0.142857      0.142857                 1.0  0.428511
+               keywords 2133           817          952              136         0.142857      0.142857                 1.0  0.305681
+       machine learning 2133           817          952              136         0.142857      0.142857                 1.0  0.331659
+sql database management 2424           817          952              136         0.142857      0.142857                 1.0  0.654022
+
+==============================================================================================================
+DICTIONARY SUMMARY
+==============================================================================================================
+dictionary_size: 0
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Dictionary (deduped)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data', 'Type']
+[Empty]
+
+[wrote] dictionary -> /Users/saurabhkumar/Desktop/OECD_PYSPARK_LOCAL/data/parquet_OECD/outputs_oecd_like/dictionary_year=2021
+
+[INFO] Dictionary empty under strict OECD thresholds.
+This does NOT mean methodology is wrong.
+It means (RF>=REL_SHARE AND Count_byNoun>=MIN_GLOBAL_COUNT) produced no candidates.
+Use feasibility checks + RF quantiles above to confirm.
+
+==============================================================================================================
+>>> YEAR 2022 START <<<
+==============================================================================================================
+
+==============================================================================================================
+RAW PHASE1 SANITY
+==============================================================================================================
+chunks_rows: 5915
+distinct_jobs: 1
+distinct_soc4: 6
+distinct_noun_chunks: 7
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top noun_chunk by Count_byNoun
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'Count_byNoun']
+             noun_chunk  Count_byNoun
+sql database management           845
+dashboard visualization           845
+         data analytics           845
+               keywords           845
+     python programming           845
+       machine learning           845
+   statistical modeling           845
+
+==============================================================================================================
+DIAGNOSTIC 1: ANCHOR COVERAGE (SOC4 group anchors)
+==============================================================================================================
+data_entry | anchors=['4111', '4112', '4113', '4114', '4121', '4131', '4132', '4150']
+  rows=0, distinct_jobs=0, term_mass(sum Count_byNounOcc)=0
+database | anchors=['2423', '2136']
+  rows=7, distinct_jobs=1, term_mass(sum Count_byNounOcc)=980
+analytics | anchors=['2421', '2424', '2133', '2135']
+  rows=28, distinct_jobs=1, term_mass(sum Count_byNounOcc)=3948
+
+==============================================================================================================
+DIAGNOSTIC 2: RELATIVE_FREQUENCY DISTRIBUTION (global)
+==============================================================================================================
+[warn] approxQuantile failed: An error occurred while calling o1577.approxQuantile.
+: java.lang.ClassCastException: class java.lang.Integer cannot be cast to class java.lang.Double (java.lang.Integer and java.lang.Double are in module java.base of loader 'bootstrap')
+	at scala.runtime.BoxesRunTime.unboxToDouble(BoxesRunTime.java:112)
+	at scala.collection.mutable.ArrayBuilder$ofDouble.addOne(ArrayBuilder.scala:411)
+	at scala.collection.mutable.Growable.addAll(Growable.scala:62)
+	at scala.collection.mutable.Growable.addAll$(Growable.scala:57)
+	at scala.collection.mutable.ArrayBuilder.addAll(ArrayBuilder.scala:75)
+	at scala.collection.IterableOnceOps.toArray(IterableOnce.scala:1528)
+	at scala.collection.IterableOnceOps.toArray$(IterableOnce.scala:1521)
+	at scala.collection.AbstractIterable.toArray(Iterable.scala:936)
+	at org.apache.spark.sql.classic.DataFrameStatFunctions.approxQuantile(DataFrameStatFunctions.scala:61)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+	at py4j.Gateway.invoke(Gateway.java:282)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:184)
+	at py4j.ClientServerConnection.run(ClientServerConnection.java:108)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: RF buckets
+--------------------------------------------------------------------------------------------------------------
+Columns: ['rf_bucket', 'count']
+rf_bucket  count
+      1-2     42
+
+==============================================================================================================
+DIAGNOSTIC 3: REL_SHARE feasibility checks
+==============================================================================================================
+rows with RF >= 1: 42
+rows with RF >= 2: 0
+rows with RF >= 3: 0
+rows with RF >= 5: 0
+rows with RF >= 8: 0
+rows with RF >= 10: 0
+rows with RF >= 12: 0
+rows with RF >= 15: 0
+rows with RF >= REL_SHARE(10.0): 0
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top rows by relative_frequency (unfiltered)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+   statistical modeling 2424           845          987              141         0.142857      0.142857                 1.0  0.562410
+       machine learning 2424           845          987              141         0.142857      0.142857                 1.0  0.331659
+dashboard visualization 2421           845          987              141         0.142857      0.142857                 1.0  0.428511
+               keywords 2134           845          987              141         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2134           845          987              141         0.142857      0.142857                 1.0  0.428511
+       machine learning 2421           845          987              141         0.142857      0.142857                 1.0  0.331659
+     python programming 2133           845          987              141         0.142857      0.142857                 1.0  0.317704
+sql database management 2421           845          987              141         0.142857      0.142857                 1.0  0.654022
+       machine learning 2135           845          987              141         0.142857      0.142857                 1.0  0.331659
+         data analytics 2424           845          987              141         0.142857      0.142857                 1.0  0.849426
+               keywords 2424           845          987              141         0.142857      0.142857                 1.0  0.305681
+               keywords 2135           845          987              141         0.142857      0.142857                 1.0  0.305681
+sql database management 2135           845          987              141         0.142857      0.142857                 1.0  0.654022
+               keywords 2421           845          987              141         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2424           845          987              141         0.142857      0.142857                 1.0  0.428511
+dashboard visualization 2136           845          980              140         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2421           845          987              141         0.142857      0.142857                 1.0  0.562410
+     python programming 2135           845          987              141         0.142857      0.142857                 1.0  0.317704
+sql database management 2136           845          980              140         0.142857      0.142857                 1.0  0.654022
+       machine learning 2134           845          987              141         0.142857      0.142857                 1.0  0.331659
+     python programming 2421           845          987              141         0.142857      0.142857                 1.0  0.317704
+         data analytics 2134           845          987              141         0.142857      0.142857                 1.0  0.849426
+         data analytics 2135           845          987              141         0.142857      0.142857                 1.0  0.849426
+         data analytics 2421           845          987              141         0.142857      0.142857                 1.0  0.849426
+dashboard visualization 2135           845          987              141         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2134           845          987              141         0.142857      0.142857                 1.0  0.562410
+       machine learning 2136           845          980              140         0.142857      0.142857                 1.0  0.331659
+               keywords 2136           845          980              140         0.142857      0.142857                 1.0  0.305681
+         data analytics 2133           845          987              141         0.142857      0.142857                 1.0  0.849426
+sql database management 2133           845          987              141         0.142857      0.142857                 1.0  0.654022
+     python programming 2136           845          980              140         0.142857      0.142857                 1.0  0.317704
+         data analytics 2136           845          980              140         0.142857      0.142857                 1.0  0.849426
+   statistical modeling 2133           845          987              141         0.142857      0.142857                 1.0  0.562410
+   statistical modeling 2135           845          987              141         0.142857      0.142857                 1.0  0.562410
+     python programming 2424           845          987              141         0.142857      0.142857                 1.0  0.317704
+dashboard visualization 2133           845          987              141         0.142857      0.142857                 1.0  0.428511
+     python programming 2134           845          987              141         0.142857      0.142857                 1.0  0.317704
+               keywords 2133           845          987              141         0.142857      0.142857                 1.0  0.305681
+       machine learning 2133           845          987              141         0.142857      0.142857                 1.0  0.331659
+sql database management 2134           845          987              141         0.142857      0.142857                 1.0  0.654022
+   statistical modeling 2136           845          980              140         0.142857      0.142857                 1.0  0.562410
+sql database management 2424           845          987              141         0.142857      0.142857                 1.0  0.654022
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (data_entry)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+[Empty]
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (database)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+dashboard visualization 2136           845          980              140         0.142857      0.142857                 1.0  0.428511
+sql database management 2136           845          980              140         0.142857      0.142857                 1.0  0.654022
+       machine learning 2136           845          980              140         0.142857      0.142857                 1.0  0.331659
+               keywords 2136           845          980              140         0.142857      0.142857                 1.0  0.305681
+     python programming 2136           845          980              140         0.142857      0.142857                 1.0  0.317704
+         data analytics 2136           845          980              140         0.142857      0.142857                 1.0  0.849426
+   statistical modeling 2136           845          980              140         0.142857      0.142857                 1.0  0.562410
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (analytics)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+   statistical modeling 2424           845          987              141         0.142857      0.142857                 1.0  0.562410
+       machine learning 2424           845          987              141         0.142857      0.142857                 1.0  0.331659
+dashboard visualization 2421           845          987              141         0.142857      0.142857                 1.0  0.428511
+       machine learning 2421           845          987              141         0.142857      0.142857                 1.0  0.331659
+     python programming 2133           845          987              141         0.142857      0.142857                 1.0  0.317704
+sql database management 2421           845          987              141         0.142857      0.142857                 1.0  0.654022
+       machine learning 2135           845          987              141         0.142857      0.142857                 1.0  0.331659
+         data analytics 2424           845          987              141         0.142857      0.142857                 1.0  0.849426
+               keywords 2424           845          987              141         0.142857      0.142857                 1.0  0.305681
+               keywords 2135           845          987              141         0.142857      0.142857                 1.0  0.305681
+sql database management 2135           845          987              141         0.142857      0.142857                 1.0  0.654022
+               keywords 2421           845          987              141         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2424           845          987              141         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2421           845          987              141         0.142857      0.142857                 1.0  0.562410
+     python programming 2135           845          987              141         0.142857      0.142857                 1.0  0.317704
+     python programming 2421           845          987              141         0.142857      0.142857                 1.0  0.317704
+         data analytics 2135           845          987              141         0.142857      0.142857                 1.0  0.849426
+         data analytics 2421           845          987              141         0.142857      0.142857                 1.0  0.849426
+dashboard visualization 2135           845          987              141         0.142857      0.142857                 1.0  0.428511
+         data analytics 2133           845          987              141         0.142857      0.142857                 1.0  0.849426
+sql database management 2133           845          987              141         0.142857      0.142857                 1.0  0.654022
+   statistical modeling 2133           845          987              141         0.142857      0.142857                 1.0  0.562410
+   statistical modeling 2135           845          987              141         0.142857      0.142857                 1.0  0.562410
+     python programming 2424           845          987              141         0.142857      0.142857                 1.0  0.317704
+dashboard visualization 2133           845          987              141         0.142857      0.142857                 1.0  0.428511
+               keywords 2133           845          987              141         0.142857      0.142857                 1.0  0.305681
+       machine learning 2133           845          987              141         0.142857      0.142857                 1.0  0.331659
+sql database management 2424           845          987              141         0.142857      0.142857                 1.0  0.654022
+
+==============================================================================================================
+DICTIONARY SUMMARY
+==============================================================================================================
+dictionary_size: 0
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Dictionary (deduped)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data', 'Type']
+[Empty]
+
+[wrote] dictionary -> /Users/saurabhkumar/Desktop/OECD_PYSPARK_LOCAL/data/parquet_OECD/outputs_oecd_like/dictionary_year=2022
+
+[INFO] Dictionary empty under strict OECD thresholds.
+This does NOT mean methodology is wrong.
+It means (RF>=REL_SHARE AND Count_byNoun>=MIN_GLOBAL_COUNT) produced no candidates.
+Use feasibility checks + RF quantiles above to confirm.
+
+==============================================================================================================
+>>> YEAR 2023 START <<<
+==============================================================================================================
+
+==============================================================================================================
+RAW PHASE1 SANITY
+==============================================================================================================
+chunks_rows: 5985
+distinct_jobs: 1
+distinct_soc4: 6
+distinct_noun_chunks: 7
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top noun_chunk by Count_byNoun
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'Count_byNoun']
+             noun_chunk  Count_byNoun
+sql database management           855
+dashboard visualization           855
+         data analytics           855
+               keywords           855
+     python programming           855
+       machine learning           855
+   statistical modeling           855
+
+==============================================================================================================
+DIAGNOSTIC 1: ANCHOR COVERAGE (SOC4 group anchors)
+==============================================================================================================
+data_entry | anchors=['4111', '4112', '4113', '4114', '4121', '4131', '4132', '4150']
+  rows=0, distinct_jobs=0, term_mass(sum Count_byNounOcc)=0
+database | anchors=['2423', '2136']
+  rows=7, distinct_jobs=1, term_mass(sum Count_byNounOcc)=1001
+analytics | anchors=['2421', '2424', '2133', '2135']
+  rows=28, distinct_jobs=1, term_mass(sum Count_byNounOcc)=3990
+
+==============================================================================================================
+DIAGNOSTIC 2: RELATIVE_FREQUENCY DISTRIBUTION (global)
+==============================================================================================================
+[warn] approxQuantile failed: An error occurred while calling o2199.approxQuantile.
+: java.lang.ClassCastException: class java.lang.Integer cannot be cast to class java.lang.Double (java.lang.Integer and java.lang.Double are in module java.base of loader 'bootstrap')
+	at scala.runtime.BoxesRunTime.unboxToDouble(BoxesRunTime.java:112)
+	at scala.collection.mutable.ArrayBuilder$ofDouble.addOne(ArrayBuilder.scala:411)
+	at scala.collection.mutable.Growable.addAll(Growable.scala:62)
+	at scala.collection.mutable.Growable.addAll$(Growable.scala:57)
+	at scala.collection.mutable.ArrayBuilder.addAll(ArrayBuilder.scala:75)
+	at scala.collection.IterableOnceOps.toArray(IterableOnce.scala:1528)
+	at scala.collection.IterableOnceOps.toArray$(IterableOnce.scala:1521)
+	at scala.collection.AbstractIterable.toArray(Iterable.scala:936)
+	at org.apache.spark.sql.classic.DataFrameStatFunctions.approxQuantile(DataFrameStatFunctions.scala:61)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+	at py4j.Gateway.invoke(Gateway.java:282)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:184)
+	at py4j.ClientServerConnection.run(ClientServerConnection.java:108)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: RF buckets
+--------------------------------------------------------------------------------------------------------------
+Columns: ['rf_bucket', 'count']
+rf_bucket  count
+      1-2     42
+
+==============================================================================================================
+DIAGNOSTIC 3: REL_SHARE feasibility checks
+==============================================================================================================
+rows with RF >= 1: 42
+rows with RF >= 2: 0
+rows with RF >= 3: 0
+rows with RF >= 5: 0
+rows with RF >= 8: 0
+rows with RF >= 10: 0
+rows with RF >= 12: 0
+rows with RF >= 15: 0
+rows with RF >= REL_SHARE(10.0): 0
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top rows by relative_frequency (unfiltered)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+   statistical modeling 2424           855         1001              143         0.142857      0.142857                 1.0  0.562410
+       machine learning 2424           855         1001              143         0.142857      0.142857                 1.0  0.331659
+dashboard visualization 2421           855         1001              143         0.142857      0.142857                 1.0  0.428511
+               keywords 2134           855          994              142         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2134           855          994              142         0.142857      0.142857                 1.0  0.428511
+       machine learning 2421           855         1001              143         0.142857      0.142857                 1.0  0.331659
+     python programming 2133           855          994              142         0.142857      0.142857                 1.0  0.317704
+sql database management 2421           855         1001              143         0.142857      0.142857                 1.0  0.654022
+       machine learning 2135           855          994              142         0.142857      0.142857                 1.0  0.331659
+         data analytics 2424           855         1001              143         0.142857      0.142857                 1.0  0.849426
+               keywords 2424           855         1001              143         0.142857      0.142857                 1.0  0.305681
+               keywords 2135           855          994              142         0.142857      0.142857                 1.0  0.305681
+sql database management 2135           855          994              142         0.142857      0.142857                 1.0  0.654022
+               keywords 2421           855         1001              143         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2424           855         1001              143         0.142857      0.142857                 1.0  0.428511
+dashboard visualization 2136           855         1001              143         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2421           855         1001              143         0.142857      0.142857                 1.0  0.562410
+     python programming 2135           855          994              142         0.142857      0.142857                 1.0  0.317704
+sql database management 2136           855         1001              143         0.142857      0.142857                 1.0  0.654022
+       machine learning 2134           855          994              142         0.142857      0.142857                 1.0  0.331659
+     python programming 2421           855         1001              143         0.142857      0.142857                 1.0  0.317704
+         data analytics 2134           855          994              142         0.142857      0.142857                 1.0  0.849426
+         data analytics 2135           855          994              142         0.142857      0.142857                 1.0  0.849426
+         data analytics 2421           855         1001              143         0.142857      0.142857                 1.0  0.849426
+dashboard visualization 2135           855          994              142         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2134           855          994              142         0.142857      0.142857                 1.0  0.562410
+       machine learning 2136           855         1001              143         0.142857      0.142857                 1.0  0.331659
+               keywords 2136           855         1001              143         0.142857      0.142857                 1.0  0.305681
+         data analytics 2133           855          994              142         0.142857      0.142857                 1.0  0.849426
+sql database management 2133           855          994              142         0.142857      0.142857                 1.0  0.654022
+     python programming 2136           855         1001              143         0.142857      0.142857                 1.0  0.317704
+         data analytics 2136           855         1001              143         0.142857      0.142857                 1.0  0.849426
+   statistical modeling 2133           855          994              142         0.142857      0.142857                 1.0  0.562410
+   statistical modeling 2135           855          994              142         0.142857      0.142857                 1.0  0.562410
+     python programming 2424           855         1001              143         0.142857      0.142857                 1.0  0.317704
+dashboard visualization 2133           855          994              142         0.142857      0.142857                 1.0  0.428511
+     python programming 2134           855          994              142         0.142857      0.142857                 1.0  0.317704
+               keywords 2133           855          994              142         0.142857      0.142857                 1.0  0.305681
+       machine learning 2133           855          994              142         0.142857      0.142857                 1.0  0.331659
+sql database management 2134           855          994              142         0.142857      0.142857                 1.0  0.654022
+   statistical modeling 2136           855         1001              143         0.142857      0.142857                 1.0  0.562410
+sql database management 2424           855         1001              143         0.142857      0.142857                 1.0  0.654022
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (data_entry)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+[Empty]
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (database)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+dashboard visualization 2136           855         1001              143         0.142857      0.142857                 1.0  0.428511
+sql database management 2136           855         1001              143         0.142857      0.142857                 1.0  0.654022
+       machine learning 2136           855         1001              143         0.142857      0.142857                 1.0  0.331659
+               keywords 2136           855         1001              143         0.142857      0.142857                 1.0  0.305681
+     python programming 2136           855         1001              143         0.142857      0.142857                 1.0  0.317704
+         data analytics 2136           855         1001              143         0.142857      0.142857                 1.0  0.849426
+   statistical modeling 2136           855         1001              143         0.142857      0.142857                 1.0  0.562410
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (analytics)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+   statistical modeling 2424           855         1001              143         0.142857      0.142857                 1.0  0.562410
+       machine learning 2424           855         1001              143         0.142857      0.142857                 1.0  0.331659
+dashboard visualization 2421           855         1001              143         0.142857      0.142857                 1.0  0.428511
+       machine learning 2421           855         1001              143         0.142857      0.142857                 1.0  0.331659
+     python programming 2133           855          994              142         0.142857      0.142857                 1.0  0.317704
+sql database management 2421           855         1001              143         0.142857      0.142857                 1.0  0.654022
+       machine learning 2135           855          994              142         0.142857      0.142857                 1.0  0.331659
+         data analytics 2424           855         1001              143         0.142857      0.142857                 1.0  0.849426
+               keywords 2424           855         1001              143         0.142857      0.142857                 1.0  0.305681
+               keywords 2135           855          994              142         0.142857      0.142857                 1.0  0.305681
+sql database management 2135           855          994              142         0.142857      0.142857                 1.0  0.654022
+               keywords 2421           855         1001              143         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2424           855         1001              143         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2421           855         1001              143         0.142857      0.142857                 1.0  0.562410
+     python programming 2135           855          994              142         0.142857      0.142857                 1.0  0.317704
+     python programming 2421           855         1001              143         0.142857      0.142857                 1.0  0.317704
+         data analytics 2135           855          994              142         0.142857      0.142857                 1.0  0.849426
+         data analytics 2421           855         1001              143         0.142857      0.142857                 1.0  0.849426
+dashboard visualization 2135           855          994              142         0.142857      0.142857                 1.0  0.428511
+         data analytics 2133           855          994              142         0.142857      0.142857                 1.0  0.849426
+sql database management 2133           855          994              142         0.142857      0.142857                 1.0  0.654022
+   statistical modeling 2133           855          994              142         0.142857      0.142857                 1.0  0.562410
+   statistical modeling 2135           855          994              142         0.142857      0.142857                 1.0  0.562410
+     python programming 2424           855         1001              143         0.142857      0.142857                 1.0  0.317704
+dashboard visualization 2133           855          994              142         0.142857      0.142857                 1.0  0.428511
+               keywords 2133           855          994              142         0.142857      0.142857                 1.0  0.305681
+       machine learning 2133           855          994              142         0.142857      0.142857                 1.0  0.331659
+sql database management 2424           855         1001              143         0.142857      0.142857                 1.0  0.654022
+
+==============================================================================================================
+DICTIONARY SUMMARY
+==============================================================================================================
+dictionary_size: 0
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Dictionary (deduped)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data', 'Type']
+[Empty]
+
+[wrote] dictionary -> /Users/saurabhkumar/Desktop/OECD_PYSPARK_LOCAL/data/parquet_OECD/outputs_oecd_like/dictionary_year=2023
+
+[INFO] Dictionary empty under strict OECD thresholds.
+This does NOT mean methodology is wrong.
+It means (RF>=REL_SHARE AND Count_byNoun>=MIN_GLOBAL_COUNT) produced no candidates.
+Use feasibility checks + RF quantiles above to confirm.
+
+==============================================================================================================
+>>> YEAR 2024 START <<<
+==============================================================================================================
+
+==============================================================================================================
+RAW PHASE1 SANITY
+==============================================================================================================
+chunks_rows: 5593
+distinct_jobs: 1
+distinct_soc4: 6
+distinct_noun_chunks: 7
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top noun_chunk by Count_byNoun
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'Count_byNoun']
+             noun_chunk  Count_byNoun
+sql database management           799
+dashboard visualization           799
+         data analytics           799
+               keywords           799
+     python programming           799
+       machine learning           799
+   statistical modeling           799
+
+==============================================================================================================
+DIAGNOSTIC 1: ANCHOR COVERAGE (SOC4 group anchors)
+==============================================================================================================
+data_entry | anchors=['4111', '4112', '4113', '4114', '4121', '4131', '4132', '4150']
+  rows=0, distinct_jobs=0, term_mass(sum Count_byNounOcc)=0
+database | anchors=['2423', '2136']
+  rows=7, distinct_jobs=1, term_mass(sum Count_byNounOcc)=931
+analytics | anchors=['2421', '2424', '2133', '2135']
+  rows=28, distinct_jobs=1, term_mass(sum Count_byNounOcc)=3731
+
+==============================================================================================================
+DIAGNOSTIC 2: RELATIVE_FREQUENCY DISTRIBUTION (global)
+==============================================================================================================
+[warn] approxQuantile failed: An error occurred while calling o2821.approxQuantile.
+: java.lang.ClassCastException
+
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: RF buckets
+--------------------------------------------------------------------------------------------------------------
+Columns: ['rf_bucket', 'count']
+rf_bucket  count
+      1-2     42
+
+==============================================================================================================
+DIAGNOSTIC 3: REL_SHARE feasibility checks
+==============================================================================================================
+rows with RF >= 1: 42
+rows with RF >= 2: 0
+rows with RF >= 3: 0
+rows with RF >= 5: 0
+rows with RF >= 8: 0
+rows with RF >= 10: 0
+rows with RF >= 12: 0
+rows with RF >= 15: 0
+rows with RF >= REL_SHARE(10.0): 0
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top rows by relative_frequency (unfiltered)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+   statistical modeling 2424           799          931              133         0.142857      0.142857                 1.0  0.562410
+       machine learning 2424           799          931              133         0.142857      0.142857                 1.0  0.331659
+dashboard visualization 2421           799          931              133         0.142857      0.142857                 1.0  0.428511
+               keywords 2134           799          931              133         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2134           799          931              133         0.142857      0.142857                 1.0  0.428511
+       machine learning 2421           799          931              133         0.142857      0.142857                 1.0  0.331659
+     python programming 2133           799          938              134         0.142857      0.142857                 1.0  0.317704
+sql database management 2421           799          931              133         0.142857      0.142857                 1.0  0.654022
+       machine learning 2135           799          931              133         0.142857      0.142857                 1.0  0.331659
+         data analytics 2424           799          931              133         0.142857      0.142857                 1.0  0.849426
+               keywords 2424           799          931              133         0.142857      0.142857                 1.0  0.305681
+               keywords 2135           799          931              133         0.142857      0.142857                 1.0  0.305681
+sql database management 2135           799          931              133         0.142857      0.142857                 1.0  0.654022
+               keywords 2421           799          931              133         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2424           799          931              133         0.142857      0.142857                 1.0  0.428511
+dashboard visualization 2136           799          931              133         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2421           799          931              133         0.142857      0.142857                 1.0  0.562410
+     python programming 2135           799          931              133         0.142857      0.142857                 1.0  0.317704
+sql database management 2136           799          931              133         0.142857      0.142857                 1.0  0.654022
+       machine learning 2134           799          931              133         0.142857      0.142857                 1.0  0.331659
+     python programming 2421           799          931              133         0.142857      0.142857                 1.0  0.317704
+         data analytics 2134           799          931              133         0.142857      0.142857                 1.0  0.849426
+         data analytics 2135           799          931              133         0.142857      0.142857                 1.0  0.849426
+         data analytics 2421           799          931              133         0.142857      0.142857                 1.0  0.849426
+dashboard visualization 2135           799          931              133         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2134           799          931              133         0.142857      0.142857                 1.0  0.562410
+       machine learning 2136           799          931              133         0.142857      0.142857                 1.0  0.331659
+               keywords 2136           799          931              133         0.142857      0.142857                 1.0  0.305681
+         data analytics 2133           799          938              134         0.142857      0.142857                 1.0  0.849426
+sql database management 2133           799          938              134         0.142857      0.142857                 1.0  0.654022
+     python programming 2136           799          931              133         0.142857      0.142857                 1.0  0.317704
+         data analytics 2136           799          931              133         0.142857      0.142857                 1.0  0.849426
+   statistical modeling 2133           799          938              134         0.142857      0.142857                 1.0  0.562410
+   statistical modeling 2135           799          931              133         0.142857      0.142857                 1.0  0.562410
+     python programming 2424           799          931              133         0.142857      0.142857                 1.0  0.317704
+dashboard visualization 2133           799          938              134         0.142857      0.142857                 1.0  0.428511
+     python programming 2134           799          931              133         0.142857      0.142857                 1.0  0.317704
+               keywords 2133           799          938              134         0.142857      0.142857                 1.0  0.305681
+       machine learning 2133           799          938              134         0.142857      0.142857                 1.0  0.331659
+sql database management 2134           799          931              133         0.142857      0.142857                 1.0  0.654022
+   statistical modeling 2136           799          931              133         0.142857      0.142857                 1.0  0.562410
+sql database management 2424           799          931              133         0.142857      0.142857                 1.0  0.654022
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (data_entry)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+[Empty]
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (database)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+dashboard visualization 2136           799          931              133         0.142857      0.142857                 1.0  0.428511
+sql database management 2136           799          931              133         0.142857      0.142857                 1.0  0.654022
+       machine learning 2136           799          931              133         0.142857      0.142857                 1.0  0.331659
+               keywords 2136           799          931              133         0.142857      0.142857                 1.0  0.305681
+     python programming 2136           799          931              133         0.142857      0.142857                 1.0  0.317704
+         data analytics 2136           799          931              133         0.142857      0.142857                 1.0  0.849426
+   statistical modeling 2136           799          931              133         0.142857      0.142857                 1.0  0.562410
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (analytics)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+   statistical modeling 2424           799          931              133         0.142857      0.142857                 1.0  0.562410
+       machine learning 2424           799          931              133         0.142857      0.142857                 1.0  0.331659
+dashboard visualization 2421           799          931              133         0.142857      0.142857                 1.0  0.428511
+       machine learning 2421           799          931              133         0.142857      0.142857                 1.0  0.331659
+     python programming 2133           799          938              134         0.142857      0.142857                 1.0  0.317704
+sql database management 2421           799          931              133         0.142857      0.142857                 1.0  0.654022
+       machine learning 2135           799          931              133         0.142857      0.142857                 1.0  0.331659
+         data analytics 2424           799          931              133         0.142857      0.142857                 1.0  0.849426
+               keywords 2424           799          931              133         0.142857      0.142857                 1.0  0.305681
+               keywords 2135           799          931              133         0.142857      0.142857                 1.0  0.305681
+sql database management 2135           799          931              133         0.142857      0.142857                 1.0  0.654022
+               keywords 2421           799          931              133         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2424           799          931              133         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2421           799          931              133         0.142857      0.142857                 1.0  0.562410
+     python programming 2135           799          931              133         0.142857      0.142857                 1.0  0.317704
+     python programming 2421           799          931              133         0.142857      0.142857                 1.0  0.317704
+         data analytics 2135           799          931              133         0.142857      0.142857                 1.0  0.849426
+         data analytics 2421           799          931              133         0.142857      0.142857                 1.0  0.849426
+dashboard visualization 2135           799          931              133         0.142857      0.142857                 1.0  0.428511
+         data analytics 2133           799          938              134         0.142857      0.142857                 1.0  0.849426
+sql database management 2133           799          938              134         0.142857      0.142857                 1.0  0.654022
+   statistical modeling 2133           799          938              134         0.142857      0.142857                 1.0  0.562410
+   statistical modeling 2135           799          931              133         0.142857      0.142857                 1.0  0.562410
+     python programming 2424           799          931              133         0.142857      0.142857                 1.0  0.317704
+dashboard visualization 2133           799          938              134         0.142857      0.142857                 1.0  0.428511
+               keywords 2133           799          938              134         0.142857      0.142857                 1.0  0.305681
+       machine learning 2133           799          938              134         0.142857      0.142857                 1.0  0.331659
+sql database management 2424           799          931              133         0.142857      0.142857                 1.0  0.654022
+
+==============================================================================================================
+DICTIONARY SUMMARY
+==============================================================================================================
+dictionary_size: 0
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Dictionary (deduped)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data', 'Type']
+[Empty]
+
+[wrote] dictionary -> /Users/saurabhkumar/Desktop/OECD_PYSPARK_LOCAL/data/parquet_OECD/outputs_oecd_like/dictionary_year=2024
+
+[INFO] Dictionary empty under strict OECD thresholds.
+This does NOT mean methodology is wrong.
+It means (RF>=REL_SHARE AND Count_byNoun>=MIN_GLOBAL_COUNT) produced no candidates.
+Use feasibility checks + RF quantiles above to confirm.
+
+==============================================================================================================
+>>> YEAR 2025 START <<<
+==============================================================================================================
+
+==============================================================================================================
+RAW PHASE1 SANITY
+==============================================================================================================
+chunks_rows: 5649
+distinct_jobs: 1
+distinct_soc4: 6
+distinct_noun_chunks: 7
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top noun_chunk by Count_byNoun
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'Count_byNoun']
+             noun_chunk  Count_byNoun
+sql database management           807
+dashboard visualization           807
+         data analytics           807
+               keywords           807
+     python programming           807
+       machine learning           807
+   statistical modeling           807
+
+==============================================================================================================
+DIAGNOSTIC 1: ANCHOR COVERAGE (SOC4 group anchors)
+==============================================================================================================
+data_entry | anchors=['4111', '4112', '4113', '4114', '4121', '4131', '4132', '4150']
+  rows=0, distinct_jobs=0, term_mass(sum Count_byNounOcc)=0
+database | anchors=['2423', '2136']
+  rows=7, distinct_jobs=1, term_mass(sum Count_byNounOcc)=945
+analytics | anchors=['2421', '2424', '2133', '2135']
+  rows=28, distinct_jobs=1, term_mass(sum Count_byNounOcc)=3759
+
+==============================================================================================================
+DIAGNOSTIC 2: RELATIVE_FREQUENCY DISTRIBUTION (global)
+==============================================================================================================
+[warn] approxQuantile failed: An error occurred while calling o3443.approxQuantile.
+: java.lang.ClassCastException
+
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: RF buckets
+--------------------------------------------------------------------------------------------------------------
+Columns: ['rf_bucket', 'count']
+rf_bucket  count
+      1-2     42
+
+==============================================================================================================
+DIAGNOSTIC 3: REL_SHARE feasibility checks
+==============================================================================================================
+rows with RF >= 1: 42
+rows with RF >= 2: 0
+rows with RF >= 3: 0
+rows with RF >= 5: 0
+rows with RF >= 8: 0
+rows with RF >= 10: 0
+rows with RF >= 12: 0
+rows with RF >= 15: 0
+rows with RF >= REL_SHARE(10.0): 0
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top rows by relative_frequency (unfiltered)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+   statistical modeling 2424           807          938              134         0.142857      0.142857                 1.0  0.562410
+       machine learning 2424           807          938              134         0.142857      0.142857                 1.0  0.331659
+dashboard visualization 2421           807          938              134         0.142857      0.142857                 1.0  0.428511
+               keywords 2134           807          945              135         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2134           807          945              135         0.142857      0.142857                 1.0  0.428511
+       machine learning 2421           807          938              134         0.142857      0.142857                 1.0  0.331659
+     python programming 2133           807          938              134         0.142857      0.142857                 1.0  0.317704
+sql database management 2421           807          938              134         0.142857      0.142857                 1.0  0.654022
+       machine learning 2135           807          945              135         0.142857      0.142857                 1.0  0.331659
+         data analytics 2424           807          938              134         0.142857      0.142857                 1.0  0.849426
+               keywords 2424           807          938              134         0.142857      0.142857                 1.0  0.305681
+               keywords 2135           807          945              135         0.142857      0.142857                 1.0  0.305681
+sql database management 2135           807          945              135         0.142857      0.142857                 1.0  0.654022
+               keywords 2421           807          938              134         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2424           807          938              134         0.142857      0.142857                 1.0  0.428511
+dashboard visualization 2136           807          945              135         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2421           807          938              134         0.142857      0.142857                 1.0  0.562410
+     python programming 2135           807          945              135         0.142857      0.142857                 1.0  0.317704
+sql database management 2136           807          945              135         0.142857      0.142857                 1.0  0.654022
+       machine learning 2134           807          945              135         0.142857      0.142857                 1.0  0.331659
+     python programming 2421           807          938              134         0.142857      0.142857                 1.0  0.317704
+         data analytics 2134           807          945              135         0.142857      0.142857                 1.0  0.849426
+         data analytics 2135           807          945              135         0.142857      0.142857                 1.0  0.849426
+         data analytics 2421           807          938              134         0.142857      0.142857                 1.0  0.849426
+dashboard visualization 2135           807          945              135         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2134           807          945              135         0.142857      0.142857                 1.0  0.562410
+       machine learning 2136           807          945              135         0.142857      0.142857                 1.0  0.331659
+               keywords 2136           807          945              135         0.142857      0.142857                 1.0  0.305681
+         data analytics 2133           807          938              134         0.142857      0.142857                 1.0  0.849426
+sql database management 2133           807          938              134         0.142857      0.142857                 1.0  0.654022
+     python programming 2136           807          945              135         0.142857      0.142857                 1.0  0.317704
+         data analytics 2136           807          945              135         0.142857      0.142857                 1.0  0.849426
+   statistical modeling 2133           807          938              134         0.142857      0.142857                 1.0  0.562410
+   statistical modeling 2135           807          945              135         0.142857      0.142857                 1.0  0.562410
+     python programming 2424           807          938              134         0.142857      0.142857                 1.0  0.317704
+dashboard visualization 2133           807          938              134         0.142857      0.142857                 1.0  0.428511
+     python programming 2134           807          945              135         0.142857      0.142857                 1.0  0.317704
+               keywords 2133           807          938              134         0.142857      0.142857                 1.0  0.305681
+       machine learning 2133           807          938              134         0.142857      0.142857                 1.0  0.331659
+sql database management 2134           807          945              135         0.142857      0.142857                 1.0  0.654022
+   statistical modeling 2136           807          945              135         0.142857      0.142857                 1.0  0.562410
+sql database management 2424           807          938              134         0.142857      0.142857                 1.0  0.654022
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (data_entry)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+[Empty]
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (database)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+dashboard visualization 2136           807          945              135         0.142857      0.142857                 1.0  0.428511
+sql database management 2136           807          945              135         0.142857      0.142857                 1.0  0.654022
+       machine learning 2136           807          945              135         0.142857      0.142857                 1.0  0.331659
+               keywords 2136           807          945              135         0.142857      0.142857                 1.0  0.305681
+     python programming 2136           807          945              135         0.142857      0.142857                 1.0  0.317704
+         data analytics 2136           807          945              135         0.142857      0.142857                 1.0  0.849426
+   statistical modeling 2136           807          945              135         0.142857      0.142857                 1.0  0.562410
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Top anchor terms by RF (analytics)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data']
+             noun_chunk soc4  Count_byNoun  Count_byOcc  Count_byNounOcc  Share_byNounOcc  Share_byNoun  relative_frequency  sim_data
+   statistical modeling 2424           807          938              134         0.142857      0.142857                 1.0  0.562410
+       machine learning 2424           807          938              134         0.142857      0.142857                 1.0  0.331659
+dashboard visualization 2421           807          938              134         0.142857      0.142857                 1.0  0.428511
+       machine learning 2421           807          938              134         0.142857      0.142857                 1.0  0.331659
+     python programming 2133           807          938              134         0.142857      0.142857                 1.0  0.317704
+sql database management 2421           807          938              134         0.142857      0.142857                 1.0  0.654022
+       machine learning 2135           807          945              135         0.142857      0.142857                 1.0  0.331659
+         data analytics 2424           807          938              134         0.142857      0.142857                 1.0  0.849426
+               keywords 2424           807          938              134         0.142857      0.142857                 1.0  0.305681
+               keywords 2135           807          945              135         0.142857      0.142857                 1.0  0.305681
+sql database management 2135           807          945              135         0.142857      0.142857                 1.0  0.654022
+               keywords 2421           807          938              134         0.142857      0.142857                 1.0  0.305681
+dashboard visualization 2424           807          938              134         0.142857      0.142857                 1.0  0.428511
+   statistical modeling 2421           807          938              134         0.142857      0.142857                 1.0  0.562410
+     python programming 2135           807          945              135         0.142857      0.142857                 1.0  0.317704
+     python programming 2421           807          938              134         0.142857      0.142857                 1.0  0.317704
+         data analytics 2135           807          945              135         0.142857      0.142857                 1.0  0.849426
+         data analytics 2421           807          938              134         0.142857      0.142857                 1.0  0.849426
+dashboard visualization 2135           807          945              135         0.142857      0.142857                 1.0  0.428511
+         data analytics 2133           807          938              134         0.142857      0.142857                 1.0  0.849426
+sql database management 2133           807          938              134         0.142857      0.142857                 1.0  0.654022
+   statistical modeling 2133           807          938              134         0.142857      0.142857                 1.0  0.562410
+   statistical modeling 2135           807          945              135         0.142857      0.142857                 1.0  0.562410
+     python programming 2424           807          938              134         0.142857      0.142857                 1.0  0.317704
+dashboard visualization 2133           807          938              134         0.142857      0.142857                 1.0  0.428511
+               keywords 2133           807          938              134         0.142857      0.142857                 1.0  0.305681
+       machine learning 2133           807          938              134         0.142857      0.142857                 1.0  0.331659
+sql database management 2424           807          938              134         0.142857      0.142857                 1.0  0.654022
+
+==============================================================================================================
+DICTIONARY SUMMARY
+==============================================================================================================
+dictionary_size: 0
+
+--------------------------------------------------------------------------------------------------------------
+DATASET: Dictionary (deduped)
+--------------------------------------------------------------------------------------------------------------
+Columns: ['noun_chunk', 'soc4', 'Count_byNoun', 'Count_byOcc', 'Count_byNounOcc', 'Share_byNounOcc', 'Share_byNoun', 'relative_frequency', 'sim_data', 'Type']
+[Empty]
+
+[wrote] dictionary -> /Users/saurabhkumar/Desktop/OECD_PYSPARK_LOCAL/data/parquet_OECD/outputs_oecd_like/dictionary_year=2025
+
+[INFO] Dictionary empty under strict OECD thresholds.
+This does NOT mean methodology is wrong.
+It means (RF>=REL_SHARE AND Count_byNoun>=MIN_GLOBAL_COUNT) produced no candidates.
+Use feasibility checks + RF quantiles above to confirm.
+
+==============================================================================================================
+FINAL: VALUATION
+==============================================================================================================
+[warn] No sector outputs produced (likely dictionary empty for all years).
+Diagnostics above will show if REL_SHARE/MIN_GLOBAL_COUNT are infeasible with sample.
