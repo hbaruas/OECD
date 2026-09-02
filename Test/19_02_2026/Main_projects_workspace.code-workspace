@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../ONS_SHIPPING"
+		},
+		{
+			"path": "../../../journeyline"
+		},
+		{
+			"path": "../../../I21_VOCALINK"
+		},
+		{
+			"path": "../../../IDEA_DUMP_BRAIN_DUMP"
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}
